@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alles Liebe zur Hochzeit von Annie, Richard, Matilda, Dorothea</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Spectral:wght@300;400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --weiss:#EFF1EE;
+  --petrol:#0F2E38;
+  --kupfer:#B0703A;
+  --grau:#7E8595;
+  --display:"Fraunces",Georgia,"Times New Roman",serif;
+  --text:"Spectral",Georgia,serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--petrol)}
+body{font-family:var(--text);color:var(--petrol);-webkit-text-size-adjust:100%;padding:16px 10px 40px}
+#card{position:relative;max-width:560px;margin:0 auto;background:var(--weiss);padding:22px 20px 26px 34px;overflow:hidden}
+
+.hairline{position:absolute;left:16px;top:22px;bottom:22px;width:1px;background:var(--kupfer);z-index:4}
+.pad{position:absolute;left:11px;top:38%;width:11px;height:11px;border:1px solid var(--kupfer);border-radius:50%;background:var(--weiss);z-index:4}
+.pad::after{content:"";position:absolute;left:3px;top:3px;width:5px;height:5px;border-radius:50%;background:var(--kupfer)}
+
+.eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--grau);margin:0 0 2px}
+.absender{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--petrol);margin:0 0 8px;line-height:1.7}
+.nurlesbar{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+
+/* Notfallnavigation im Kopf */
+#schritte{display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;border-top:1px solid rgba(126,133,149,.35);padding-top:7px;margin:0 0 12px}
+#schritte button{appearance:none;background:none;border:0;padding:0;cursor:pointer;
+  font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--grau)}
+#schritte button .nr{color:var(--grau);margin-right:4px}
+#schritte button.ist{color:var(--petrol)}
+#schritte button.ist .nr{color:var(--kupfer)}
+#schritte button.ist::after{content:"";display:block;height:1px;background:var(--kupfer);margin-top:3px}
+
+/* Buehnenraum: Inhalt, Regen dahinter, Konfettidecke davor */
+#raum{position:relative}
+#raum > .abschnitt{position:relative;z-index:1}
+#konfetti{position:absolute;left:0;top:0;right:0;bottom:0;pointer-events:none;overflow:hidden;z-index:0}
+#decke{position:absolute;left:0;top:0;display:none;z-index:2;pointer-events:none;touch-action:none}
+#card.schritt1 #decke,#card.schritt2 #decke{display:block}
+#card.schritt2 #decke{pointer-events:auto;cursor:crosshair}
+
+.abschnitt{display:none}
+#card.schritt1 #buehne{display:block}
+#card.schritt2 #stufe-puzzle,#card.schritt3 #stufe-puzzle{display:block}
+#card.schritt2 #stufe-puzzle{display:flex;flex-direction:column;justify-content:center}
+#card.schritt4 #stufe-gedicht{display:block}
+
+.szenebox{margin:0 -20px 0 -34px}
+#szene{display:block;width:100%;height:auto}
+
+#familie{display:flex;align-items:flex-end;justify-content:center;gap:6px;margin-top:6px}
+#familie figure{margin:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end}
+.fig{display:block;overflow:visible}
+.grundlinie{height:1px;background:var(--kupfer);margin:0 auto}
+#familienamen{display:flex;justify-content:center;gap:6px;margin-top:9px}
+#familienamen span{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--petrol);text-align:center;white-space:nowrap}
+
+/* fallendes Konfetti */
+.teil{position:absolute;border:1px solid var(--petrol);background:var(--weiss);opacity:0}
+.teil.k{background:var(--kupfer);border-color:var(--kupfer)}
+.teil.g{background:var(--grau);border-color:var(--grau)}
+#card:not(.schritt1) .teil{display:none}
+#card:not(.bewegt) .teil{display:none}
+@keyframes fallen{
+  0%{opacity:0;transform:translate3d(0,0,0) rotate(0deg)}
+  8%{opacity:1}
+  88%{opacity:1}
+  100%{opacity:0;transform:translate3d(var(--dx,0px),var(--dy,200px),0) rotate(var(--rot,180deg))}
+}
+
+.mitte{text-align:center;margin:12px 0 2px}
+.paar{font-family:var(--display);font-weight:400;font-size:20px;line-height:1.2;color:var(--grau);margin:0;letter-spacing:.04em}
+.amp{color:var(--kupfer)}
+.daten{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--petrol);margin:10px 0 0}
+.daten span{color:var(--kupfer)}
+.rule{height:1px;background:var(--grau);opacity:.4;margin:16px 0 0}
+
+/* 03 Puzzeln */
+.ptitel{font-family:var(--display);font-size:17px;font-weight:400;margin:2px 0 0;color:var(--petrol)}
+.plead{font-family:var(--mono);font-size:10px;line-height:1.7;letter-spacing:.06em;color:var(--grau);margin:6px 0 0}
+#feld{position:relative;margin:12px auto 0;background:var(--weiss);
+  outline:1px solid rgba(126,133,149,.55);touch-action:none;
+  transform-origin:43.9% 56.1%;                     /* Wafer und Stromkreis im Wasserzeichen */
+  transition:transform 1.3s cubic-bezier(.45,0,.75,.1),opacity 1.3s ease-in}
+#feld.zoomt{transform:scale(9);opacity:0}
+.kachel{position:absolute;background-repeat:no-repeat;background-color:var(--weiss);
+  box-shadow:inset 0 0 0 1px rgba(239,241,238,.85);touch-action:none}
+#card.schritt3 .kachel{cursor:grab}
+.kachel.zieht{z-index:9;box-shadow:0 5px 12px rgba(15,46,56,.4)}
+.kachel.blitz{animation:blitz .55s ease-out}
+@keyframes blitz{
+  0%{box-shadow:0 0 0 2px var(--kupfer)}
+  100%{box-shadow:inset 0 0 0 1px rgba(239,241,238,.85)}
+}
+#zaehler{font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--grau);margin:10px 0 0;text-align:center}
+#zaehler b{color:var(--petrol);font-weight:400}
+#ueberspringen{display:block;margin:10px auto 0}
+#ueberspringen[hidden]{display:none}
+
+/* Bandszene bleibt in allen Stationen stehen */
+#kopfszene{position:relative;z-index:3}
+
+/* 04 Gedicht als Wisch-Strecke */
+#strophennav{display:flex;flex-wrap:wrap;gap:9px;align-items:baseline;margin:2px 0 0}
+#strophennav button{appearance:none;background:none;border:0;padding:0;cursor:pointer;
+  font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--grau)}
+#strophennav button .sn{color:var(--grau);margin-right:3px}
+#strophennav button.ist{color:var(--petrol)}
+#strophennav button.ist .sn{color:var(--kupfer)}
+#strophennav button.ist::after{content:"";display:block;height:1px;background:var(--kupfer);margin-top:3px}
+#strophen{position:relative;touch-action:pan-y}
+#strophen .gkarte{display:none}
+#strophen .gkarte.ist{display:block}
+#card.bewegt #strophen .gkarte.ist.vor{animation:reinR .38s ease-out both}
+#card.bewegt #strophen .gkarte.ist.zurueck{animation:reinL .38s ease-out both}
+@keyframes reinR{from{opacity:0;transform:translateX(26px)}to{opacity:1;transform:translateX(0)}}
+@keyframes reinL{from{opacity:0;transform:translateX(-26px)}to{opacity:1;transform:translateX(0)}}
+#wischhinweis{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;color:var(--grau);
+  margin:10px 0 0;text-align:center}
+#wischhinweis b{color:var(--petrol);font-weight:400}
+.gkarte{border:1px solid rgba(126,133,149,.5);padding:14px 14px 16px;margin:12px 0 0}
+.gkopf{display:flex;justify-content:space-between;align-items:baseline;
+  border-bottom:1px solid var(--kupfer);padding-bottom:6px;margin-bottom:10px}
+.glbl{font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--petrol)}
+.gno{font-family:var(--display);font-size:14px;color:var(--kupfer)}
+.vers p{font-family:var(--text);font-size:14px;line-height:1.75;margin:0 0 11px}
+.vers p:last-child{margin-bottom:0}
+.gsig{font-family:var(--display);font-size:14px;line-height:1.7;color:var(--kupfer);margin:12px 0 0}
+.gnote{font-family:var(--text);font-size:14px;line-height:1.75;margin:0}
+.gnote b{font-weight:400;color:var(--petrol);border-bottom:1px solid var(--kupfer)}
+.plakette{margin:14px 0 0;border:1px solid var(--kupfer);padding:10px 12px;text-align:center}
+.plakette em{display:block;font-family:var(--mono);font-style:normal;font-size:9px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--grau)}
+.plakette strong{display:block;font-family:var(--display);font-weight:400;font-size:16px;color:var(--petrol);margin-top:4px}
+.meer{position:relative;height:74px;margin:18px -20px 0 -34px;overflow:hidden;background:#123B4A}
+.welle{position:absolute;left:0;width:200%;height:26px}
+.welle.b{bottom:26px}
+.welle.f{bottom:0}
+.schiff{position:absolute;left:50%;bottom:26px;margin-left:-56px}
+@keyframes auftauchen{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+#card.bewegt.schritt4 #stufe-gedicht{animation:auftauchen .9s ease-out both}
+@keyframes schiffeln{0%,100%{transform:translateY(0) rotate(-2.4deg)}50%{transform:translateY(-4px) rotate(2.4deg)}}
+#card.bewegt .schiff{transform-origin:bottom center;animation:schiffeln 4.6s ease-in-out infinite}
+
+/* Steuerleiste */
+#leiste{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-top:18px;position:relative;z-index:3}
+#hinweis{font-family:var(--mono);font-size:10px;line-height:1.6;letter-spacing:.06em;color:var(--grau);margin:0;flex:1 1 auto}
+#hinweis b{color:var(--petrol);font-weight:400}
+.knopf{appearance:none;background:none;border:1px solid var(--kupfer);color:var(--petrol);
+  font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  padding:7px 12px;cursor:pointer}
+.knopf[disabled]{opacity:.35;cursor:default}
+.knopf.leise{border-color:rgba(126,133,149,.6);color:var(--grau);font-size:9px;padding:5px 9px}
+
+/* Bewegung nur mit Klasse .bewegt */
+.bein-l,.bein-r,.bein-s-l,.bein-s-r,.arm-w,.arm-t,.arm-tr,.arm-c-l,.arm-c-r{transform-box:fill-box}
+#card.bewegt .bein-l{transform-origin:top center;animation:wackel 1.1s ease-in-out infinite}
+#card.bewegt .bein-r{transform-origin:top center;animation:wackel 1.1s ease-in-out infinite reverse}
+#card.bewegt .bein-s-l{transform-origin:top left;animation:baumeln 1.7s ease-in-out infinite}
+#card.bewegt .bein-s-r{transform-origin:top left;animation:baumeln 1.7s ease-in-out infinite reverse}
+#card.bewegt .arm-w{transform-origin:top left;animation:winken 1.4s ease-in-out infinite}
+#card.bewegt .arm-t{transform-origin:top right;animation:wurf 1.9s ease-in-out infinite}
+#card.bewegt .arm-tr{transform-origin:bottom left;animation:wurfR 1.9s ease-in-out infinite}
+#card.bewegt .arm-c-l{transform-origin:bottom right;animation:fangen 2.6s ease-in-out infinite}
+#card.bewegt .arm-c-r{transform-origin:bottom left;animation:fangen 2.6s ease-in-out infinite reverse}
+#card.bewegt #familie .fig{animation:schaukeln 3.4s ease-in-out infinite}
+@keyframes wackel{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(5deg)}}
+@keyframes baumeln{0%,100%{transform:rotate(-7deg)}50%{transform:rotate(7deg)}}
+@keyframes winken{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(22deg)}}
+@keyframes wurf{0%,100%{transform:rotate(6deg)}45%{transform:rotate(-24deg)}55%{transform:rotate(-20deg)}}
+@keyframes wurfR{0%,100%{transform:rotate(-8deg)}45%{transform:rotate(26deg)}55%{transform:rotate(22deg)}}
+@keyframes fangen{0%,100%{transform:rotate(-7deg)}50%{transform:rotate(9deg)}}
+@keyframes schaukeln{0%,100%{transform:rotate(-1.2deg)}50%{transform:rotate(1.2deg)}}
+
+/* Mobilmodus: weniger gleichzeitig animierte Ebenen */
+#card.mobil #familie .fig,
+#card.mobil .bein-l,#card.mobil .bein-r,
+#card.mobil .arm-c-l,#card.mobil .arm-c-r{animation:none!important}
+
+.errbanner{padding:16px;font-family:var(--mono);font-size:12px;color:#7a1c1c;background:#fbe9e9;border:1px solid #7a1c1c;white-space:pre-wrap}
+</style>
+</head>
+<body>
+<div id="card" class="schritt1">
+  <span class="hairline"></span><span class="pad"></span>
+
+  <p class="eyebrow">Absender</p>
+  <p class="absender">Annie &middot; Richard &middot; Matilda &middot; Dorothea</p>
+
+  <nav id="schritte" aria-label="Stationen der Karte">
+    <button type="button" data-schritt="1"><span class="nr">01</span>Konfetti-Regen</button>
+    <button type="button" data-schritt="2"><span class="nr">02</span>Ausgraben</button>
+    <button type="button" data-schritt="3"><span class="nr">03</span>Puzzeln</button>
+    <button type="button" data-schritt="4"><span class="nr">04</span>Gedicht</button>
+  </nav>
+
+  <h1 class="nurlesbar">Alles Liebe zur Hochzeit von Annie, Richard, Matilda, Dorothea</h1>
+
+  <div id="kopfszene">
+    <div class="szenebox">
+    <svg id="szene" viewBox="0 132 720 258" xmlns="http://www.w3.org/2000/svg"
+         data-vby="132" data-vbh="258" data-schulter="264.5"
+         role="img" aria-label="Alles Liebe zur Hochzeit — die Absenderfamilie sitzt auf dem Geschenkband und wirft Konfetti">
+      <g transform="rotate(-6 360 329)">
+        <g class="band">
+          <rect x="-90" y="286" width="900" height="86" fill="#0F2E38"/>
+          <path d="M-90 293 H810" stroke="#B0703A" stroke-width="1.6" fill="none"/>
+          <path d="M-90 365 H810" stroke="#B0703A" stroke-width="1.6" fill="none"/>
+          <text id="bandtext" x="360" y="352" text-anchor="middle"
+                font-family="Fraunces, Georgia, serif" font-weight="600" font-size="44"
+                letter-spacing="0.5" fill="#EFF1EE">Alles Liebe zur Hochzeit</text>
+        </g>
+
+        <g class="fig" data-figur="annie" data-statur="0.92" data-pose="sitzen" data-skala="0.72" transform="translate(80.0,149.2) scale(0.72)" aria-label="Strichfigur Annie">
+          <g fill="none" stroke="#0F2E38" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round">
+            <g transform="translate(0,44)"><circle cx="50" cy="40" r="21" fill="#EFF1EE"/><path d="M29 34 Q33 13 50 15 Q67 13 71 34 Q64 25 50 26 Q36 25 29 34 Z" fill="#0F2E38"/><circle cx="72" cy="22" r="7.5" fill="#0F2E38"/><g stroke-width="2.6"><path d="M37 43 Q42 37 47 43"/><path d="M53 43 Q58 37 63 43"/></g><path d="M42 52 Q50 61 58 52" stroke-width="2"/><path d="M50 61 V78"/><rect x="38" y="80" width="24" height="66" rx="5" fill="#7E8595"/><path d="M45 80 L50 94 L55 80" fill="#EFF1EE" stroke-width="2"/><g class="arm-t"><path d="M38 84 L20 102 L24 120"/><circle cx="24" cy="124" r="4.2" fill="#EFF1EE"/></g><g class="arm-tr"><path d="M62 84 L82 74 L88 54"/><circle cx="89" cy="50" r="4.2" fill="#EFF1EE"/></g></g>
+              <g class="bein-s-l" stroke="#EFF1EE"><path d="M46 186 L70 196 L73 214"/><path d="M73 214 L83 216"/></g>
+              <g class="bein-s-r" stroke="#EFF1EE"><path d="M54 186 L78 200 L81 218"/><path d="M81 218 L91 220"/></g>
+          </g>
+        </g>
+
+        <g class="fig" data-figur="richard" data-statur="1.00" data-pose="sitzen" data-skala="0.78" transform="translate(227.0,137.8) scale(0.78)" aria-label="Strichfigur Richard">
+          <g fill="none" stroke="#0F2E38" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round">
+            <g transform="translate(0,44)"><circle cx="50" cy="40" r="21" fill="#EFF1EE"/><path d="M29 32 Q31 19 39 17 Q43 9 50 13 Q58 7 63 17 Q72 19 71 33 Q64 21 55 25 Q46 19 40 26 Q34 25 29 32 Z" fill="#0F2E38"/><g stroke-width="2"><circle cx="42" cy="41" r="2.4" fill="#0F2E38"/><circle cx="58" cy="41" r="2.4" fill="#0F2E38"/></g><path d="M42 52 Q50 61 58 52" stroke-width="2"/><path d="M50 61 V78"/><rect x="38" y="80" width="24" height="66" rx="5" fill="#B0703A"/><path d="M50 80 V146" stroke="#EFF1EE" stroke-width="2"/><path d="M41 78 Q50 88 59 78" stroke-width="2"/><g class="arm-t"><path d="M38 84 L20 102 L24 120"/><circle cx="24" cy="124" r="4.2" fill="#EFF1EE"/></g><g class="arm-tr"><path d="M62 84 L82 74 L88 54"/><circle cx="89" cy="50" r="4.2" fill="#EFF1EE"/></g></g>
+              <g class="bein-s-l" stroke="#EFF1EE"><path d="M46 186 L70 196 L73 214"/><path d="M73 214 L83 216"/></g>
+              <g class="bein-s-r" stroke="#EFF1EE"><path d="M54 186 L78 200 L81 218"/><path d="M81 218 L91 220"/></g>
+          </g>
+        </g>
+
+        <g class="fig" data-figur="matilda" data-statur="0.72" data-pose="sitzen" data-skala="0.58" transform="translate(399.0,175.8) scale(0.58)" aria-label="Strichfigur Matilda">
+          <g fill="none" stroke="#0F2E38" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round">
+            <defs><pattern id="karo" width="6" height="6" patternUnits="userSpaceOnUse"><rect width="6" height="6" fill="#EFF1EE"/><rect width="3" height="3" fill="#7E8595"/><rect x="3" y="3" width="3" height="3" fill="#7E8595"/></pattern></defs>
+              <g transform="translate(0,36)"><circle cx="50" cy="46" r="27" fill="#EFF1EE"/><path d="M24 48 Q22 74 30 86 L38 60 Z" fill="#0F2E38"/><path d="M76 48 Q78 74 70 86 L62 60 Z" fill="#0F2E38"/><path d="M28 42 Q30 17 50 17 Q70 17 72 42 Z" fill="url(#karo)"/><path d="M21 42 H79" stroke-width="4"/><g stroke-width="2.6"><path d="M37 49 Q42 43 47 49"/><path d="M53 49 Q58 43 63 49"/></g><path d="M42 58 Q50 67 58 58" stroke-width="2"/><path d="M50 73 V90"/><rect x="38" y="92" width="24" height="62" rx="5" fill="#EFF1EE"/><path d="M43 116 H57 V154 H43 Z" fill="#7E8595" stroke-width="2"/><path d="M44 116 L44 96 M56 116 L56 96" stroke-width="2" stroke="#7E8595"/><g class="arm-t"><path d="M38 96 L20 114 L24 132"/><circle cx="24" cy="136" r="4.2" fill="#EFF1EE"/></g><g class="arm-tr"><path d="M62 96 L82 86 L88 66"/><circle cx="89" cy="62" r="4.2" fill="#EFF1EE"/></g></g>
+              <g class="bein-s-l" stroke="#EFF1EE"><path d="M46 186 L70 196 L73 214"/><path d="M73 214 L83 216"/></g>
+              <g class="bein-s-r" stroke="#EFF1EE"><path d="M54 186 L78 200 L81 218"/><path d="M81 218 L91 220"/></g>
+          </g>
+        </g>
+
+        <g class="fig" data-figur="dorothea" data-statur="0.52" data-pose="sitzen" data-skala="0.44" transform="translate(544.0,202.4) scale(0.44)" aria-label="Strichfigur Dorothea">
+          <g fill="none" stroke="#0F2E38" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round">
+            <g transform="translate(0,36)"><circle cx="50" cy="46" r="27" fill="#EFF1EE"/><path d="M24 48 Q22 74 30 86 L38 60 Z" fill="#0F2E38"/><path d="M76 48 Q78 74 70 86 L62 60 Z" fill="#0F2E38"/><path d="M31 40 Q33 17 50 17 Q67 17 69 40 Z" fill="#EFF1EE"/><ellipse cx="50" cy="41" rx="32" ry="6" fill="#EFF1EE"/><path d="M20 41 Q50 31 80 41" stroke="#B0703A" stroke-width="2.5"/><g stroke-width="2.6"><path d="M37 49 Q42 43 47 49"/><path d="M53 49 Q58 43 63 49"/></g><path d="M42 58 Q50 67 58 58" stroke-width="2"/><path d="M50 73 V90"/><rect x="38" y="92" width="24" height="62" rx="5" fill="#EFF1EE"/><path d="M38 112 H62 M38 130 H62" stroke-width="2.5" stroke="#0F2E38"/><path d="M45 92 L50 102 L55 92" stroke-width="2"/><g class="arm-t"><path d="M38 96 L20 114 L24 132"/><circle cx="24" cy="136" r="4.2" fill="#EFF1EE"/></g><g class="arm-tr"><path d="M62 96 L82 86 L88 66"/><circle cx="89" cy="62" r="4.2" fill="#EFF1EE"/></g></g>
+              <g class="bein-s-l" stroke="#EFF1EE"><path d="M46 186 L70 196 L73 214"/><path d="M73 214 L83 216"/></g>
+              <g class="bein-s-r" stroke="#EFF1EE"><path d="M54 186 L78 200 L81 218"/><path d="M81 218 L91 220"/></g>
+          </g>
+        </g>
+      </g>
+    </svg>
+    </div>
+  </div>
+
+  <div id="raum">
+    <div class="abschnitt" id="buehne">
+      <div class="mitte">
+        <p class="paar" id="paar">Beatrice <span class="amp">&amp;</span> Marcus</p>
+        <p class="daten">29 &middot; 08 &middot; 2026 <span>&middot;</span> DRESDEN</p>
+      </div>
+
+      <div class="rule"></div>
+
+      <div id="familie">
+
+      <figure>
+        <svg class="fig" data-figur="marcus" data-statur="1.00" data-pose="fangen" viewBox="0 0 100 240" xmlns="http://www.w3.org/2000/svg" aria-label="Strichfigur Marcus">
+          <g fill="none" stroke="#0F2E38" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="50" cy="40" r="21" fill="#EFF1EE"/>
+            <path d="M29 33 Q31 15 50 14 Q69 15 71 33 Q63 23 50 25 Q37 23 29 33 Z" fill="#0F2E38"/>
+            <g stroke-width="2.6"><path d="M37 43 Q42 37 47 43"/><path d="M53 43 Q58 37 63 43"/></g>
+            <path d="M42 52 Q50 61 58 52" stroke-width="2"/>
+            <path d="M50 61 V78"/>
+            <rect x="38" y="80" width="24" height="66" rx="4" fill="#0F2E38"/><path d="M44 80 L50 96 L56 80" fill="#EFF1EE" stroke-width="2"/><path d="M50 96 V146" stroke="#EFF1EE" stroke-width="2"/>
+            <circle cx="57" cy="88" r="3" fill="#B0703A" stroke="none"/>
+            <g class="arm-c-l"><path d="M38 84 L20 72 L13 54"/><circle cx="12" cy="50" r="4.2" fill="#EFF1EE"/></g>
+            <g class="arm-c-r"><path d="M62 84 L80 72 L87 54"/><circle cx="88" cy="50" r="4.2" fill="#EFF1EE"/></g>
+            <g class="bein-l"><path d="M45 146 L39 194 L37 232"/><path d="M37 232 H27"/></g>
+            <g class="bein-r"><path d="M55 146 L61 194 L63 232"/><path d="M63 232 H73"/></g>
+          </g>
+        </svg>
+      </figure>
+
+      <figure>
+        <svg class="fig" data-figur="bea" data-statur="0.80" data-pose="fangen" viewBox="0 0 100 240" xmlns="http://www.w3.org/2000/svg" aria-label="Strichfigur Bea">
+          <g fill="none" stroke="#0F2E38" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M29 26 Q50 5 71 26 Q79 70 73 116 Q61 84 50 80 Q39 84 27 116 Q21 70 29 26 Z" fill="#EFF1EE" stroke-width="2"/>
+            <circle cx="50" cy="40" r="21" fill="#EFF1EE"/>
+            <path d="M28 36 Q30 12 50 14 Q70 12 72 36 Q64 24 50 26 Q36 24 28 36 Z" fill="#0F2E38"/>
+            <path d="M35 21 Q50 11 65 21" stroke="#B0703A" stroke-width="2.5"/>
+            <g stroke-width="2.6"><path d="M37 43 Q42 37 47 43"/><path d="M53 43 Q58 37 63 43"/></g>
+            <path d="M42 52 Q50 61 58 52" stroke-width="2"/>
+            <path d="M50 61 V78"/>
+            <path d="M38 80 H62 L72 146 H28 Z" fill="#EFF1EE"/><path d="M45 80 L50 92 L55 80" stroke-width="2"/><path d="M33 124 Q50 116 67 124" stroke-width="2" stroke="#7E8595"/>
+            <g stroke="none"><circle cx="88" cy="44" r="4.2" fill="#B0703A"/><circle cx="94" cy="39" r="3.4" fill="#B0703A"/><circle cx="83" cy="37" r="3.4" fill="#B0703A"/></g><path d="M88 48 L86 58" stroke="#7E8595" stroke-width="2"/>
+            <g class="arm-c-l"><path d="M38 84 L20 72 L13 54"/><circle cx="12" cy="50" r="4.2" fill="#EFF1EE"/></g>
+            <g class="arm-c-r"><path d="M62 84 L80 72 L87 54"/><circle cx="88" cy="50" r="4.2" fill="#EFF1EE"/></g>
+            <g class="bein-l"><path d="M45 146 L39 194 L37 232"/><path d="M37 232 H27"/></g>
+            <g class="bein-r"><path d="M55 146 L61 194 L63 232"/><path d="M63 232 H73"/></g>
+          </g>
+        </svg>
+      </figure>
+
+      <figure>
+        <svg class="fig" data-figur="grosse" data-statur="0.56" data-pose="fangen" viewBox="0 0 100 240" xmlns="http://www.w3.org/2000/svg" aria-label="Strichfigur Die Große">
+          <g fill="none" stroke="#0F2E38" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="50" cy="46" r="27" fill="#EFF1EE"/>
+            <path d="M24 48 Q22 74 30 86 L38 60 Z" fill="#0F2E38"/><path d="M76 48 Q78 74 70 86 L62 60 Z" fill="#0F2E38"/>
+            <path d="M30 26 Q50 14 70 26" stroke="#B0703A" stroke-width="2.5"/>
+            <g stroke-width="2.6"><path d="M37 49 Q42 43 47 49"/><path d="M53 49 Q58 43 63 49"/></g>
+            <path d="M42 58 Q50 67 58 58" stroke-width="2"/>
+            <path d="M50 73 V90"/>
+            <path d="M38 92 H62 L72 154 H28 Z" fill="#EFF1EE"/><path d="M31 132 Q50 124 69 132" stroke-width="2" stroke="#7E8595"/><path d="M34 146 Q50 138 66 146" stroke-width="2" stroke="#7E8595"/><path d="M38 108 H62" stroke-width="2.5" stroke="#7E8595"/>
+            <g class="arm-c-l"><path d="M38 96 L20 84 L13 66"/><circle cx="12" cy="62" r="4.2" fill="#EFF1EE"/></g>
+            <g class="arm-c-r"><path d="M62 96 L80 84 L87 66"/><circle cx="88" cy="62" r="4.2" fill="#EFF1EE"/></g>
+            <g class="bein-l"><path d="M45 154 L39 194 L37 232"/><path d="M37 232 H27"/></g>
+            <g class="bein-r"><path d="M55 154 L61 194 L63 232"/><path d="M63 232 H73"/></g>
+          </g>
+        </svg>
+      </figure>
+
+      <figure>
+        <svg class="fig" data-figur="kleine" data-statur="0.41" data-pose="fangen" viewBox="0 0 100 240" xmlns="http://www.w3.org/2000/svg" aria-label="Strichfigur Der Kleine">
+          <g fill="none" stroke="#0F2E38" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="50" cy="46" r="27" fill="#EFF1EE"/>
+            <path d="M23 44 Q26 16 50 16 Q74 16 77 44 Q68 30 50 32 Q32 30 23 44 Z" fill="#0F2E38"/>
+            <g stroke-width="2.6"><path d="M37 49 Q42 43 47 49"/><path d="M53 49 Q58 43 63 49"/></g>
+            <path d="M42 58 Q50 67 58 58" stroke-width="2"/>
+            <path d="M50 73 V90"/>
+            <rect x="38" y="92" width="24" height="62" rx="5" fill="#EFF1EE"/><path d="M40 114 H60 V154 H40 Z" fill="#7E8595" stroke-width="2"/><path d="M44 114 L44 96 M56 114 L56 96" stroke-width="2" stroke="#7E8595"/>
+            <g class="arm-c-l"><path d="M38 96 L20 84 L13 66"/><circle cx="12" cy="62" r="4.2" fill="#EFF1EE"/></g>
+            <g class="arm-c-r"><path d="M62 96 L80 84 L87 66"/><circle cx="88" cy="62" r="4.2" fill="#EFF1EE"/></g>
+            <g class="bein-l"><path d="M45 154 L39 194 L37 232"/><path d="M37 232 H27"/></g>
+            <g class="bein-r"><path d="M55 154 L61 194 L63 232"/><path d="M63 232 H73"/></g>
+          </g>
+        </svg>
+      </figure>
+
+      </div>
+      <div class="grundlinie" id="grundlinie"></div>
+      <div id="familienamen">
+      <span data-fuer="marcus">Marcus</span>
+      <span data-fuer="bea">Bea</span>
+      <span data-fuer="grosse">Die Gro&szlig;e</span>
+      <span data-fuer="kleine">Der Kleine</span>
+      </div>
+    </div>
+
+    <div class="abschnitt" id="stufe-puzzle">
+      <p class="ptitel">Erst die Bordkarte</p>
+      <p class="plead">F&uuml;nfzehn Schnipsel, ein Ticket. Ein Teil auf den Platz eines anderen ziehen &mdash; dann tauschen die beiden.</p>
+      <div id="feld" aria-label="Puzzlefeld der Bordkarte"></div>
+      <p id="zaehler"><b>0</b> von 15 an Ort und Stelle</p>
+      <button type="button" class="knopf leise" id="ueberspringen" hidden>&Uuml;berspringen</button>
+    </div>
+
+    <div class="abschnitt" id="stufe-gedicht">
+      <nav id="strophennav" aria-label="Strophen">
+        <button type="button" data-strophe="0"><span class="sn">I</span> Zwei F&auml;cher</button>
+        <button type="button" data-strophe="1"><span class="sn">II</span> Stoff und Strom</button>
+        <button type="button" data-strophe="2"><span class="sn">III</span> Leinen los</button>
+        <button type="button" data-strophe="3"><span class="sn">IV</span> Bordkasse</button>
+      </nav>
+      <div id="strophen">
+      <article class="gkarte">
+        <div class="gkopf"><span class="glbl">Zwei F&auml;cher, ein Kurs</span><span class="gno">I</span></div>
+        <div class="vers">
+          <p>Man nehme zwei, die sich verstehen,<br>und lasse sie gemeinsam gehen.<br>Dazu zwei Kinder, Sommerwind &mdash;<br>und schau, wie gl&uuml;cklich alle sind.</p>
+          <p>Bea legt im Reinraum Schicht um Schicht,<br>denn Chemie verhandelt nicht:<br>ein Staubkorn mehr, ein Grad zu hei&szlig; &mdash;<br>und aus dem Wafer wird Verschlei&szlig;.</p>
+          <p>Marcus kennt den Widerstand,<br>nimmt Spannung, Strom, in seine Hand<br>und lehrt so lang, bis jeder wei&szlig;:<br>Der Strom braucht immer einen Kreis.</p>
+        </div>
+      </article>
+
+      <article class="gkarte">
+        <div class="gkopf"><span class="glbl">Stoff und Strom</span><span class="gno">II</span></div>
+        <div class="vers">
+          <p>Sie liefert Stoff, er liefert Strom,<br>sie rechnen bis zum letzten Atom.<br>Doch was am sch&ouml;nsten funktioniert,<br>hat keiner von den zwei notiert.</p>
+          <p>Und Marcus kocht. Was ist ein Gericht?<br>Drei Fertigteile &mdash; mehr braucht&rsquo;s nicht.<br>Das Resultat ist oft kurios,<br>doch keiner l&auml;sst den Teller los.</p>
+        </div>
+      </article>
+
+      <article class="gkarte">
+        <div class="gkopf"><span class="glbl">Leinen los</span><span class="gno">III</span></div>
+        <div class="vers">
+          <p>Kommt Wind, kommt Welle, kommt Verdruss<br>Sie kennt Chemie und er Stromfluss.<br>Zusammen, Hand in Hand,<br>kriegt dieses Paar alles an Land.</p>
+        </div>
+        <p class="gsig">Drum: Gl&uuml;ck, Gesundheit, viel Applaus &mdash;<br>und Leinen los. Jetzt fahrt ihr raus.</p>
+      </article>
+
+      <article class="gkarte">
+        <div class="gkopf"><span class="glbl">Bordkasse</span><span class="gno">IV</span></div>
+        <p class="gnote">Kein Toaster, keine Vase, kein zweiter Entsafter.<br><br>Bea und Marcus w&uuml;nschen sich eine Kreuzfahrt &mdash; und daf&uuml;r z&auml;hlt am Ende nur eines: <b>eine gut gef&uuml;llte Bordkasse.</b></p>
+        <div class="plakette"><em>Einzahlung</em><strong>bar, im Kuvert</strong></div>
+      </article>
+      </div>
+      <p id="wischhinweis">Strophe <b>1</b> von 4 &middot; nach links wischen</p>
+
+      <div class="meer" aria-hidden="true">
+        <svg class="welle b" viewBox="0 0 200 24" preserveAspectRatio="none">
+          <path d="M0 12Q12.5 4 25 12T50 12T75 12T100 12T125 12T150 12T175 12T200 12V24H0Z" fill="#164254"/></svg>
+        <svg class="schiff" width="112" height="58" viewBox="0 0 118 62" fill="none">
+          <path d="M30 40V14" stroke="#E7EAE6" stroke-width="1.5"/>
+          <path d="M31 15l14 6-14 6z" fill="#B0703A"/>
+          <rect x="46" y="26" width="32" height="14" fill="#E7EAE6"/>
+          <rect x="51" y="30" width="5" height="5" fill="#0F2E38"/>
+          <rect x="60" y="30" width="5" height="5" fill="#0F2E38"/>
+          <rect x="69" y="30" width="5" height="5" fill="#0F2E38"/>
+          <rect x="82" y="20" width="10" height="20" fill="#E7EAE6"/>
+          <rect x="82" y="24" width="10" height="4" fill="#B0703A"/>
+          <path d="M6 40h106l-13 14H19z" fill="#E7EAE6"/>
+          <path d="M6 40h106v3H6z" fill="#B0703A"/>
+        </svg>
+        <svg class="welle f" viewBox="0 0 200 24" preserveAspectRatio="none">
+          <path d="M0 12Q12.5 4 25 12T50 12T75 12T100 12T125 12T150 12T175 12T200 12V24H0Z" fill="#0A2A36"/></svg>
+      </div>
+    </div>
+
+    <div id="konfetti" aria-hidden="true"></div>
+    <canvas id="decke" aria-hidden="true"></canvas>
+  </div>
+
+  <div id="leiste">
+    <p id="hinweis">&nbsp;</p>
+    <button type="button" class="knopf" id="weiter">Weiter</button>
+    <button type="button" class="knopf leise" id="bewegung" aria-pressed="false">Bewegung einschalten</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var BORD = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNDIiIGhlaWdodD0iMjI4IiB2aWV3Qm94PSIwIDAgMzQyIDIyOCIgZm9udC1mYW1pbHk9InVpLW1vbm9zcGFjZSwgJ0RlamFWdSBTYW5zIE1vbm8nLCAnUm9ib3RvIE1vbm8nLCBtb25vc3BhY2UiPgo8cmVjdCB3aWR0aD0iMzQyIiBoZWlnaHQ9IjIyOCIgZmlsbD0iI0VGRjFFRSIvPgo8ZyBvcGFjaXR5PSIwLjE0IiBmaWxsPSJub25lIj4KICA8Y2lyY2xlIGN4PSIxNTAiIGN5PSIxMjgiIHI9Ijg0IiBzdHJva2U9IiM3RTg1OTUiIHN0cm9rZS13aWR0aD0iMiIvPgogIDxjaXJjbGUgY3g9IjE1MCIgY3k9IjEyOCIgcj0iNTciIHN0cm9rZT0iIzdFODU5NSIgc3Ryb2tlLXdpZHRoPSIxLjIiLz4KICA8Y2lyY2xlIGN4PSIxNTAiIGN5PSIxMjgiIHI9IjI5IiBzdHJva2U9IiM3RTg1OTUiIHN0cm9rZS13aWR0aD0iMS4yIi8+CiAgPHBhdGggZD0iTTg2IDE4MiBIMjE0IiBzdHJva2U9IiM3RTg1OTUiIHN0cm9rZS13aWR0aD0iMiIvPgogIDxwYXRoIGQ9Ik04IDEyOCBIOTIiIHN0cm9rZT0iIzBGMkUzOCIgc3Ryb2tlLXdpZHRoPSIxLjgiLz4KICA8cGF0aCBkPSJNOTIgMTI4IGw3IC05IGw3IDE4IGw3IC0xOCBsNyAxOCBsNyAtOSIgc3Ryb2tlPSIjMEYyRTM4IiBzdHJva2Utd2lkdGg9IjEuOCIvPgogIDxwYXRoIGQ9Ik0xMjcgMTI4IEgxOTYiIHN0cm9rZT0iIzBGMkUzOCIgc3Ryb2tlLXdpZHRoPSIxLjgiLz4KICA8Y2lyY2xlIGN4PSIyMDQiIGN5PSIxMjgiIHI9IjgiIHN0cm9rZT0iIzBGMkUzOCIgc3Ryb2tlLXdpZHRoPSIxLjgiLz4KICA8cGF0aCBkPSJNMjEyIDEyOCBIMzM0IiBzdHJva2U9IiMwRjJFMzgiIHN0cm9rZS13aWR0aD0iMS44Ii8+CjwvZz4KPHJlY3Qgd2lkdGg9IjM0MiIgaGVpZ2h0PSIzNCIgZmlsbD0iIzBGMkUzOCIvPgo8dGV4dCB4PSIxNCIgeT0iMjIiIGZvbnQtc2l6ZT0iMTIuNSIgbGV0dGVyLXNwYWNpbmc9IjIuMiIgZmlsbD0iI0VGRjFFRSI+Qk9BUkRJTkcgUEFTUzwvdGV4dD4KPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjc2LDcpIHNjYWxlKDAuMzYpIiBmaWxsPSJub25lIj48cGF0aCBkPSJNMzAgNDBWMTQiIHN0cm9rZT0iI0VGRjFFRSIgc3Ryb2tlLXdpZHRoPSIyLjYiLz48cGF0aCBkPSJNMzEgMTVsMTQgNi0xNCA2eiIgZmlsbD0iI0IwNzAzQSIvPjxyZWN0IHg9IjQ2IiB5PSIyNiIgd2lkdGg9IjMyIiBoZWlnaHQ9IjE0IiBmaWxsPSIjRUZGMUVFIi8+PHJlY3QgeD0iODIiIHk9IjIwIiB3aWR0aD0iMTAiIGhlaWdodD0iMjAiIGZpbGw9IiNFRkYxRUUiLz48cmVjdCB4PSI4MiIgeT0iMjQiIHdpZHRoPSIxMCIgaGVpZ2h0PSI0IiBmaWxsPSIjQjA3MDNBIi8+PHBhdGggZD0iTTYgNDBoMTA2bC0xMyAxNEgxOXoiIGZpbGw9IiNFRkYxRUUiLz48cGF0aCBkPSJNNiA0MGgxMDZ2M0g2eiIgZmlsbD0iI0IwNzAzQSIvPjwvZz4KPHBhdGggZD0iTTE0IDQxIEgzMjgiIHN0cm9rZT0iI0IwNzAzQSIgc3Ryb2tlLXdpZHRoPSIxLjIiIGZpbGw9Im5vbmUiLz4KPHRleHQgeD0iMTQiIHk9IjYwIiBmb250LXNpemU9IjciIGxldHRlci1zcGFjaW5nPSIxLjUiIGZpbGw9IiM3RTg1OTUiPlBBU1NBR0lFUkU8L3RleHQ+PHRleHQgeD0iMTQiIHk9Ijc1IiBmb250LXNpemU9IjEyLjUiIGxldHRlci1zcGFjaW5nPSIwLjYiIGZpbGw9IiMwRjJFMzgiPkJFQVRSSUNFICZhbXA7IE1BUkNVUzwvdGV4dD4KPHRleHQgeD0iMTQiIHk9Ijg4IiBmb250LXNpemU9IjciIGxldHRlci1zcGFjaW5nPSIxLjUiIGZpbGw9IiM3RTg1OTUiPlJPVVRFPC90ZXh0Pgo8dGV4dCB4PSIxNCIgeT0iMTAzIiBmb250LXNpemU9IjExIiBsZXR0ZXItc3BhY2luZz0iMC42IiBmaWxsPSIjMEYyRTM4Ij5EUkVTREVOPC90ZXh0Pgo8cGF0aCBkPSJNNzAgOTkgSDg4IE04MyA5NSBMODggOTkgTDgzIDEwMyIgc3Ryb2tlPSIjQjA3MDNBIiBzdHJva2Utd2lkdGg9IjEuNCIgZmlsbD0ibm9uZSIvPgo8dGV4dCB4PSI5NCIgeT0iMTAzIiBmb250LXNpemU9IjExIiBsZXR0ZXItc3BhY2luZz0iMC42IiBmaWxsPSIjMEYyRTM4Ij5PRkZFTkVTIE1FRVI8L3RleHQ+Cjx0ZXh0IHg9IjE0IiB5PSIxMjQiIGZvbnQtc2l6ZT0iNyIgbGV0dGVyLXNwYWNpbmc9IjEuNSIgZmlsbD0iIzdFODU5NSI+QUJGQUhSVDwvdGV4dD48dGV4dCB4PSIxNCIgeT0iMTM5IiBmb250LXNpemU9IjExIiBsZXR0ZXItc3BhY2luZz0iMC42IiBmaWxsPSIjMEYyRTM4Ij4yOS4wOC4yMDI2PC90ZXh0Pgo8dGV4dCB4PSIxNDIiIHk9IjEyNCIgZm9udC1zaXplPSI3IiBsZXR0ZXItc3BhY2luZz0iMS41IiBmaWxsPSIjN0U4NTk1Ij5LTEFTU0U8L3RleHQ+PHRleHQgeD0iMTQyIiB5PSIxMzkiIGZvbnQtc2l6ZT0iMTAiIGxldHRlci1zcGFjaW5nPSIwLjYiIGZpbGw9IiMwRjJFMzgiPkFVRiBMRUJFTlNaRUlUPC90ZXh0Pgo8dGV4dCB4PSIxNCIgeT0iMTU4IiBmb250LXNpemU9IjciIGxldHRlci1zcGFjaW5nPSIxLjUiIGZpbGw9IiM3RTg1OTUiPlRSQVVaRVVHRU48L3RleHQ+PHRleHQgeD0iMTQiIHk9IjE3MyIgZm9udC1zaXplPSIxMCIgbGV0dGVyLXNwYWNpbmc9IjAuNiIgZmlsbD0iIzBGMkUzOCI+RElFIEdST1NTRSAmIzE4MzsgREVSIEtMRUlORTwvdGV4dD4KPHBhdGggZD0iTTE0IDE5MiBIMjQ4IiBzdHJva2U9IiNCMDcwM0EiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIvPgo8dGV4dCB4PSIxNCIgeT0iMjA2IiBmb250LXNpemU9IjgiIGxldHRlci1zcGFjaW5nPSIxLjIiIGZpbGw9IiMwRjJFMzgiPkdBVEUgJiMxODM7IExFSU5FTiBMT1M8L3RleHQ+Cjx0ZXh0IHg9IjE1MCIgeT0iMjA2IiBmb250LXNpemU9IjgiIGxldHRlci1zcGFjaW5nPSIxLjIiIGZpbGw9IiMwRjJFMzgiPlNJVFpFICYjMTgzOyBORUJFTkVJTkFOREVSPC90ZXh0Pgo8dGV4dCB4PSIxNCIgeT0iMjE5IiBmb250LXNpemU9IjgiIGxldHRlci1zcGFjaW5nPSIxLjIiIGZpbGw9IiM3RTg1OTUiPkdFUCYjMTk2O0NLICYjMTgzOyBIQU5ER0VQJiMxOTY7Q0sgR0VOJiMyMjA7R1Q8L3RleHQ+CjxwYXRoIGQ9Ik0yNTggMzQgVjIyOCIgc3Ryb2tlPSIjMEYyRTM4IiBzdHJva2Utd2lkdGg9IjEiIHN0cm9rZS1kYXNoYXJyYXk9IjMgNCIgZmlsbD0ibm9uZSIvPgo8cmVjdCB4PSIyNzAiIHk9IjU0IiB3aWR0aD0iMiIgaGVpZ2h0PSI4NCIgZmlsbD0iIzBGMkUzOCIvPjxyZWN0IHg9IjI3My40IiB5PSI1NCIgd2lkdGg9IjEuNCIgaGVpZ2h0PSI4NCIgZmlsbD0iIzBGMkUzOCIvPjxyZWN0IHg9IjI3Ny4wIiB5PSI1NCIgd2lkdGg9IjMuNCIgaGVpZ2h0PSI4NCIgZmlsbD0iIzBGMkUzOCIvPjxyZWN0IHg9IjI4Mi42IiB5PSI1NCIgd2lkdGg9IjEuNCIgaGVpZ2h0PSI4NCIgZmlsbD0iIzBGMkUzOCIvPjxyZWN0IHg9IjI4NS40IiB5PSI1NCIgd2lkdGg9IjIuNCIgaGVpZ2h0PSI4NCIgZmlsbD0iIzBGMkUzOCIvPjxyZWN0IHg9IjI5MC4wIiB5PSI1NCIgd2lkdGg9IjEuNCIgaGVpZ2h0PSI4NCIgZmlsbD0iIzBGMkUzOCIvPjxyZWN0IHg9IjI5My42IiB5PSI1NCIgd2lkdGg9IjQiIGhlaWdodD0iODQiIGZpbGw9IiMwRjJFMzgiLz48cmVjdCB4PSIyOTkuMCIgeT0iNTQiIHdpZHRoPSIyIiBoZWlnaHQ9Ijg0IiBmaWxsPSIjMEYyRTM4Ii8+PHJlY3QgeD0iMzAzLjIiIHk9IjU0IiB3aWR0aD0iMS40IiBoZWlnaHQ9Ijg0IiBmaWxsPSIjMEYyRTM4Ii8+PHJlY3QgeD0iMzA2LjgiIHk9IjU0IiB3aWR0aD0iMyIgaGVpZ2h0PSI4NCIgZmlsbD0iIzBGMkUzOCIvPjxyZWN0IHg9IjMxMS4yIiB5PSI1NCIgd2lkdGg9IjEuNCIgaGVpZ2h0PSI4NCIgZmlsbD0iIzBGMkUzOCIvPjxyZWN0IHg9IjMxNC44IiB5PSI1NCIgd2lkdGg9IjIuNCIgaGVpZ2h0PSI4NCIgZmlsbD0iIzBGMkUzOCIvPjxyZWN0IHg9IjMxOS40IiB5PSI1NCIgd2lkdGg9IjMuNCIgaGVpZ2h0PSI4NCIgZmlsbD0iIzBGMkUzOCIvPjxyZWN0IHg9IjMyNC4yIiB5PSI1NCIgd2lkdGg9IjEuNCIgaGVpZ2h0PSI4NCIgZmlsbD0iIzBGMkUzOCIvPjxyZWN0IHg9IjMyNy44IiB5PSI1NCIgd2lkdGg9IjIiIGhlaWdodD0iODQiIGZpbGw9IiMwRjJFMzgiLz4KPHRleHQgeD0iMzAwIiB5PSIxNjMiIGZvbnQtc2l6ZT0iOC41IiBsZXR0ZXItc3BhY2luZz0iMS40IiBmaWxsPSIjMEYyRTM4IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5CT1JES0FTU0U8L3RleHQ+CjxjaXJjbGUgY3g9IjMwMCIgY3k9IjE4OCIgcj0iOCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjQjA3MDNBIiBzdHJva2Utd2lkdGg9IjEuNCIvPgo8Y2lyY2xlIGN4PSIzMDAiIGN5PSIxODgiIHI9IjMuNCIgZmlsbD0iI0IwNzAzQSIvPgo8dGV4dCB4PSIzMDAiIHk9IjIxNCIgZm9udC1zaXplPSI3IiBsZXR0ZXItc3BhY2luZz0iMS4yIiBmaWxsPSIjN0U4NTk1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5OUi4gMjktMDgtMjY8L3RleHQ+CjxyZWN0IHg9IjAuNzUiIHk9IjAuNzUiIHdpZHRoPSIzNDAuNSIgaGVpZ2h0PSIyMjYuNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMEYyRTM4IiBzdHJva2Utd2lkdGg9IjEuNSIvPgo8L3N2Zz4=";
+
+  var CARD, RAUM, versuche = 0, FALLBACK_BREITE = 360;
+  var SZ_W = 720, SZ_H = 258;
+  var RZ = 20;                  // Raster fuer Deckenaufbau und Freilegungsgrad
+  var PAD_L = 34, PAD_R = 20;   // Innenraender der Karte
+  var FREI_SCHWELLE = 0.55;     // so viel muss weggewischt sein
+  var PZ_COLS = 5, PZ_ROWS = 3, PZ_N = 15, BK_AR = 228 / 342, BK_MAX = 342;
+  var FANG = 0.34;              // Fangdistanz als Anteil der Kachelbreite
+  var SKIP_MS = 25000;
+  var STUFEN = 10, TAKT = 1000;   // Decke waechst in 10 Sekundenschritten
+  var ZOOM_WARTE = 3000, ZOOM_DAUER = 1300;
+  var schritt = 1, breiteJetzt = FALLBACK_BREITE, wachsen = null, skipUhr = null;
+  var zoomA = null, zoomB = null;
+  var mass = { startY: 0, bodenY: 0, famBasis: 220, raumH: 0 };
+  var LOG = [];
+
+  function melde(txt){ LOG.push(txt); }
+  window.onerror = function(msg, url, zeile, spalte){
+    melde('Fehler: ' + msg + ' @' + zeile + ':' + spalte);
+    return false;
+  };
+  function phase(name, fn){
+    try{ return fn(); }catch(e){ melde(name + ': ' + (e && e.message)); return null; }
+  }
+
+  function breiteVon(el){
+    if(!el) return 0;
+    var b = el.clientWidth || 0;
+    if(!b && el.getBoundingClientRect){ b = Math.round(el.getBoundingClientRect().width) || 0; }
+    return b;
+  }
+  function hoeheVon(el){
+    if(!el) return 0;
+    var h = el.clientHeight || el.offsetHeight || 0;
+    if(!h && el.getBoundingClientRect){ h = Math.round(el.getBoundingClientRect().height) || 0; }
+    return h;
+  }
+  function reduziert(){
+    return !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  }
+  function hat(kl){ return CARD && CARD.className.indexOf(kl) > -1; }
+
+  // deterministischer Zufall, damit Aufbau und Test reproduzierbar sind
+  var saat = 20260829;
+  function saatSetzen(s){ saat = s; }
+  function zuf(){ saat = (saat * 1103515245 + 12345) % 2147483648; return saat / 2147483648; }
+
+  // ------------------------------------------------------------ Titelszene
+  function szeneSkalieren(breite){
+    var szene = document.getElementById('szene');
+    if(!szene) return 0;
+    var h = Math.round(breite * SZ_H / SZ_W);
+    szene.style.width = breite + 'px';
+    szene.style.height = h + 'px';
+    return h;
+  }
+
+  function familieSkalieren(basis){
+    var figuren = document.querySelectorAll('#familie .fig');
+    var namen = document.querySelectorAll('#familienamen span');
+    var i, f, h, w, breiten = {};
+    for(i = 0; i < figuren.length; i++){
+      f = figuren[i];
+      h = Math.round(basis * (parseFloat(f.getAttribute('data-statur')) || 1));
+      w = Math.round(h * 100 / 240);
+      f.style.height = h + 'px';
+      f.style.width = w + 'px';
+      breiten[f.getAttribute('data-figur')] = w;
+    }
+    for(i = 0; i < namen.length; i++){
+      w = breiten[namen[i].getAttribute('data-fuer')];
+      if(w){ namen[i].style.width = Math.max(w, 54) + 'px'; }
+    }
+    return figuren.length;
+  }
+
+  function paarSkalieren(breite){
+    var paar = document.getElementById('paar');
+    if(paar){ paar.style.fontSize = Math.max(15, Math.min(23, Math.round(breite * 0.044))) + 'px'; }
+  }
+
+  function konfettiBauen(breite, startY, bodenY){
+    var schicht = document.getElementById('konfetti');
+    if(!schicht) return 0;
+    schicht.innerHTML = '';
+    var anzahl = breite < 500 ? 14 : 30;
+    var klassen = ['', ' k', ' g'];
+    var strecke = Math.max(160, bodenY - startY);
+    for(var i = 0; i < anzahl; i++){
+      var t = document.createElement('div');
+      t.className = 'teil' + klassen[i % 3];
+      t.style.width = (9 + (i % 4) * 3) + 'px';
+      t.style.height = (7 + (i % 3) * 3) + 'px';
+      t.style.left = Math.round(24 + ((breite - 60) * ((i * 37) % 100) / 100)) + 'px';
+      t.style.top = Math.round(startY + (i % 5) * 5) + 'px';
+      t.style.setProperty('--dy', Math.round(strecke * (0.80 + ((i % 7) / 34))) + 'px');
+      t.style.setProperty('--dx', ((i % 2 ? 1 : -1) * (6 + (i % 5) * 5)) + 'px');
+      t.style.setProperty('--rot', ((i % 2 ? 1 : -1) * (120 + (i % 6) * 40)) + 'deg');
+      t.style.animation = 'fallen ' + (5.0 + (i % 9) * 0.5).toFixed(2) + 's linear ' +
+                          ((i % 14) * 0.5).toFixed(2) + 's infinite';
+      schicht.appendChild(t);
+    }
+    return anzahl;
+  }
+
+  // ------------------------------------------------------- Konfettidecke
+  var D = { c: null, ctx: null, w: 0, h: 0, oben: 0, dpr: 1, zx: 0, zy: 0,
+            zellen: null, gesamt: 0, offen: 0, reihen: 0, reihenMax: 0, stufe: 0 };
+
+  function deckeVorbereiten(breite, hoehe, oben){
+    var c = document.getElementById('decke');
+    D.c = c;
+    if(!c) return 0;
+    // Oberkante der Halde: Raumoberkante, also direkt unter dem Band
+    D.oben = Math.max(0, Math.min(oben || 0, Math.max(0, hoehe - 120)));
+    D.w = Math.max(60, breite);
+    D.h = Math.max(60, hoehe - D.oben);
+    D.dpr = Math.min(3, window.devicePixelRatio || 1);
+    c.style.left = (-PAD_L) + 'px';
+    c.style.top = D.oben + 'px';
+    c.style.width = D.w + 'px';
+    c.style.height = D.h + 'px';
+    try{
+      c.width = Math.round(D.w * D.dpr);
+      c.height = Math.round(D.h * D.dpr);
+      D.ctx = c.getContext ? c.getContext('2d') : null;
+      if(D.ctx && D.ctx.setTransform){ D.ctx.setTransform(D.dpr, 0, 0, D.dpr, 0, 0); }
+    }catch(e){ D.ctx = null; }
+    D.zx = Math.ceil(D.w / RZ);
+    D.zy = Math.ceil(D.h / RZ);
+    D.zellen = [];
+    for(var i = 0; i < D.zx * D.zy; i++){ D.zellen.push(0); }
+    D.gesamt = 0; D.offen = 0;
+    D.reihen = 0; D.stufe = 0;
+    D.reihenMax = Math.ceil(D.h / 11);
+    return D.zx * D.zy;
+  }
+
+  function deckeLeeren(){
+    D.reihen = 0; D.gesamt = 0; D.offen = 0; D.stufe = 0;
+    if(D.zellen){ for(var i = 0; i < D.zellen.length; i++){ D.zellen[i] = 0; } }
+    if(D.ctx){ D.ctx.clearRect(0, 0, D.w, D.h); }
+  }
+
+  function zellenBelegen(y0, y1){
+    if(!D.zellen) return;
+    var r0 = Math.max(0, Math.floor(y0 / RZ)), r1 = Math.min(D.zy - 1, Math.floor(y1 / RZ));
+    for(var r = r0; r <= r1; r++){
+      for(var s = 0; s < D.zx; s++){
+        var i = r * D.zx + s;
+        if(!D.zellen[i]){ D.zellen[i] = 1; D.gesamt++; D.offen++; }
+      }
+    }
+  }
+
+  var FARBEN = ['#0F2E38', '#B0703A', '#7E8595', '#DDE1DD'];
+
+  function reiheZeichnen(r){
+    // r = 0 ist die unterste Reihe
+    var rh = 11, y = D.h - (r + 1) * rh;
+    saatSetzen(770300 + r * 9176);
+    if(D.ctx){
+      var x = -6;
+      while(x < D.w){
+        var w = 8 + Math.floor(zuf() * 12);
+        var h = 5 + Math.floor(zuf() * 7);
+        var dy = Math.round((zuf() - 0.5) * 7);
+        D.ctx.fillStyle = FARBEN[Math.floor(zuf() * 4)];
+        D.ctx.fillRect(Math.round(x), Math.round(y + dy), w, h);
+        x += w + 1 + Math.floor(zuf() * 3);
+      }
+    }
+    zellenBelegen(Math.max(0, y - 3), Math.min(D.h - 1, y + rh + 3));
+  }
+
+  function deckeWachsenBis(ziel){
+    ziel = Math.min(D.reihenMax, ziel);
+    while(D.reihen < ziel){
+      reiheZeichnen(D.reihen);
+      D.reihen++;
+    }
+    return D.reihen;
+  }
+
+  function deckeFuellen(){
+    D.stufe = STUFEN;
+    return deckeWachsenBis(D.reihenMax);
+  }
+
+  function deckeVoll(){ return D.reihenMax > 0 && D.reihen >= D.reihenMax; }
+  function deckeAnteil(){ return D.reihenMax ? Math.min(1, D.reihen / D.reihenMax) : 0; }
+
+  var freiWechsel = 0;
+
+  function freiAnteil(){
+    if(!D.gesamt) return 0;
+    return 1 - (D.offen / D.gesamt);
+  }
+
+  function wischen(cx, cy){
+    var c = D.c;
+    if(!c) return 0;
+    var kasten = c.getBoundingClientRect ? c.getBoundingClientRect() : { left: 0, top: 0 };
+    var x = cx - kasten.left, y = cy - kasten.top;
+    var R = 34, weg = 0;
+    if(D.ctx){
+      D.ctx.globalCompositeOperation = 'destination-out';
+      D.ctx.beginPath();
+      D.ctx.arc(x, y, R, 0, Math.PI * 2);
+      D.ctx.fill();
+      D.ctx.globalCompositeOperation = 'source-over';
+    }
+    if(D.zellen){
+      var r0 = Math.max(0, Math.floor((y - R) / RZ)), r1 = Math.min(D.zy - 1, Math.floor((y + R) / RZ));
+      var s0 = Math.max(0, Math.floor((x - R) / RZ)), s1 = Math.min(D.zx - 1, Math.floor((x + R) / RZ));
+      for(var r = r0; r <= r1; r++){
+        for(var s = s0; s <= s1; s++){
+          var i = r * D.zx + s;
+          if(D.zellen[i]){ D.zellen[i] = 0; D.offen--; weg++; }
+        }
+      }
+    }
+    if(weg){
+      hinweisSetzen();
+      var f = freiAnteil();
+      if(schritt === 2 && f >= FREI_SCHWELLE){
+        freiWechsel = f;
+        schrittSetzen(3);
+      }
+    }
+    return weg;
+  }
+
+  function wischenVerdrahten(){
+    var c = document.getElementById('decke');
+    if(!c) return;
+    var gedrueckt = false;
+    c.addEventListener('pointerdown', function(e){
+      if(schritt !== 2) return;
+      gedrueckt = true;
+      if(c.setPointerCapture && e.pointerId !== undefined){
+        try{ c.setPointerCapture(e.pointerId); }catch(err){}
+      }
+      wischen(e.clientX, e.clientY);
+      if(e.preventDefault) e.preventDefault();
+    });
+    c.addEventListener('pointermove', function(e){
+      if(schritt !== 2 || !gedrueckt) return;
+      wischen(e.clientX, e.clientY);
+      if(e.preventDefault) e.preventDefault();
+    });
+    c.addEventListener('pointerup', function(){ gedrueckt = false; });
+    c.addEventListener('pointercancel', function(){ gedrueckt = false; });
+  }
+
+  function wachsenSchritt(){
+    if(D.stufe >= STUFEN) return D.stufe;
+    D.stufe++;
+    deckeWachsenBis(Math.round(D.reihenMax * D.stufe / STUFEN));
+    hinweisSetzen();
+    if(D.stufe >= STUFEN){
+      wachsenStoppen();
+      if(schritt === 1){ schrittSetzen(2); }
+    }
+    return D.stufe;
+  }
+
+  function wachsenStarten(){
+    wachsenStoppen();
+    D.stufe = 0;
+    wachsen = window.setInterval(wachsenSchritt, TAKT);
+  }
+  function wachsenStoppen(){
+    if(wachsen){ window.clearInterval(wachsen); wachsen = null; }
+  }
+
+  // ------------------------------------------------------------- Puzzle
+  var P = { bw: 0, bh: 0, tw: 0, th: 0, kacheln: [], belegung: [], gebaut: false, frei: false };
+
+  function mischung(n){
+    // deterministische Permutation ohne Fixpunkt: pos[ziel] = Startzelle
+    var pos = [], i, j, t;
+    for(i = 0; i < n; i++){ pos.push(i); }
+    saatSetzen(29082026);
+    for(i = n - 1; i > 0; i--){
+      j = Math.floor(zuf() * (i + 1));
+      t = pos[i]; pos[i] = pos[j]; pos[j] = t;
+    }
+    for(i = 0; i < n; i++){
+      if(pos[i] === i){
+        j = (i + 1) % n;
+        t = pos[i]; pos[i] = pos[j]; pos[j] = t;
+      }
+    }
+    return pos;
+  }
+
+  function kachelSetzen(k, zelle){
+    var sp = zelle % PZ_COLS, re = Math.floor(zelle / PZ_COLS);
+    k.setAttribute('data-zelle', String(zelle));
+    k.style.left = (sp * P.tw).toFixed(2) + 'px';
+    k.style.top = (re * P.th).toFixed(2) + 'px';
+    P.belegung[zelle] = k;
+  }
+
+  function puzzleZaehlen(){
+    var n = 0, i, k;
+    for(i = 0; i < P.kacheln.length; i++){
+      k = P.kacheln[i];
+      if(k.getAttribute('data-ziel') === k.getAttribute('data-zelle')){ n++; }
+    }
+    var z = document.getElementById('zaehler');
+    if(z){ z.innerHTML = '<b>' + n + '</b> von ' + PZ_N + ' an Ort und Stelle'; }
+    return n;
+  }
+
+  function blitzen(k){
+    if(!k || !k.classList) return;
+    if(k.getAttribute('data-ziel') !== k.getAttribute('data-zelle')) return;
+    k.classList.remove('blitz');
+    void k.offsetWidth;
+    k.classList.add('blitz');
+  }
+
+  function ziehenVerdrahten(k){
+    var greif = { an: false, x0: 0, y0: 0, l0: 0, t0: 0 };
+    k.addEventListener('pointerdown', function(e){
+      if(schritt !== 3) return;
+      greif.an = true;
+      greif.x0 = e.clientX; greif.y0 = e.clientY;
+      greif.l0 = parseFloat(k.style.left) || 0;
+      greif.t0 = parseFloat(k.style.top) || 0;
+      if(k.setPointerCapture && e.pointerId !== undefined){
+        try{ k.setPointerCapture(e.pointerId); }catch(err){}
+      }
+      if(k.classList){ k.classList.add('zieht'); }
+      if(e.preventDefault) e.preventDefault();
+    });
+    k.addEventListener('pointermove', function(e){
+      if(!greif.an) return;
+      var l = greif.l0 + (e.clientX - greif.x0);
+      var t = greif.t0 + (e.clientY - greif.y0);
+      l = Math.max(-P.tw * 0.6, Math.min(P.bw - P.tw * 0.4, l));
+      t = Math.max(-P.th * 0.6, Math.min(P.bh - P.th * 0.4, t));
+      k.style.left = l.toFixed(2) + 'px';
+      k.style.top = t.toFixed(2) + 'px';
+      if(e.preventDefault) e.preventDefault();
+    });
+    function los(){
+      if(!greif.an) return;
+      greif.an = false;
+      if(k.classList){ k.classList.remove('zieht'); }
+      var l = parseFloat(k.style.left) || 0, t = parseFloat(k.style.top) || 0;
+      var sp = Math.max(0, Math.min(PZ_COLS - 1, Math.round(l / P.tw)));
+      var re = Math.max(0, Math.min(PZ_ROWS - 1, Math.round(t / P.th)));
+      var eigen = parseInt(k.getAttribute('data-zelle'), 10) || 0;
+      var ziel = re * PZ_COLS + sp;
+      var nah = Math.abs(l - sp * P.tw) <= P.tw * FANG && Math.abs(t - re * P.th) <= P.th * FANG;
+      if(!nah || ziel === eigen){
+        kachelSetzen(k, eigen);
+      } else {
+        var andere = P.belegung[ziel];
+        kachelSetzen(k, ziel);
+        if(andere && andere !== k){ kachelSetzen(andere, eigen); }
+        blitzen(k);
+        if(andere && andere !== k){ blitzen(andere); }
+      }
+      if(puzzleZaehlen() >= PZ_N){ P.frei = true; zoomStarten(); }
+      hinweisSetzen();
+    }
+    k.addEventListener('pointerup', los);
+    k.addEventListener('pointercancel', los);
+  }
+
+  function puzzleBauen(raumBreite){
+    var feld = document.getElementById('feld');
+    if(!feld) return 0;
+    P.bw = Math.min(BK_MAX, Math.max(180, raumBreite));
+    P.bh = Math.round(P.bw * BK_AR);
+    P.tw = P.bw / PZ_COLS;
+    P.th = P.bh / PZ_ROWS;
+    feld.style.width = P.bw.toFixed(2) + 'px';
+    feld.style.height = P.bh.toFixed(2) + 'px';
+
+    var altZellen = null, q;
+    if(P.gebaut && P.kacheln.length === PZ_N){
+      altZellen = [];
+      for(q = 0; q < PZ_N; q++){
+        altZellen.push(parseInt(P.kacheln[q].getAttribute('data-zelle'), 10) || 0);
+      }
+    }
+
+    feld.innerHTML = '';
+    P.kacheln = []; P.belegung = [];
+    var pos = mischung(PZ_N);
+    for(var i = 0; i < PZ_N; i++){
+      var sp = i % PZ_COLS, re = Math.floor(i / PZ_COLS);
+      var k = document.createElement('div');
+      k.className = 'kachel';
+      k.setAttribute('data-ziel', String(i));
+      k.style.width = P.tw.toFixed(2) + 'px';
+      k.style.height = P.th.toFixed(2) + 'px';
+      k.style.backgroundImage = 'url("' + BORD + '")';
+      k.style.backgroundSize = P.bw.toFixed(2) + 'px ' + P.bh.toFixed(2) + 'px';
+      k.style.backgroundPosition = '-' + (sp * P.tw).toFixed(2) + 'px -' + (re * P.th).toFixed(2) + 'px';
+      feld.appendChild(k);
+      P.kacheln.push(k);
+      ziehenVerdrahten(k);
+    }
+    for(var j = 0; j < PZ_N; j++){
+      kachelSetzen(P.kacheln[j], altZellen ? altZellen[j] : pos[j]);
+    }
+    P.gebaut = true;
+    puzzleZaehlen();
+    return PZ_N;
+  }
+
+  function puzzleMischen(){
+    if(P.kacheln.length !== PZ_N) return;
+    var pos = mischung(PZ_N);
+    for(var i = 0; i < PZ_N; i++){ kachelSetzen(P.kacheln[i], pos[i]); }
+    P.frei = false;
+    puzzleZaehlen();
+  }
+
+  function puzzleLoesen(){
+    for(var i = 0; i < P.kacheln.length; i++){
+      kachelSetzen(P.kacheln[i], parseInt(P.kacheln[i].getAttribute('data-ziel'), 10) || 0);
+    }
+    P.frei = true;
+    puzzleZaehlen();
+    hinweisSetzen();
+    zoomStarten();
+  }
+
+  function zoomAbbrechen(){
+    if(zoomA){ window.clearTimeout(zoomA); zoomA = null; }
+    if(zoomB){ window.clearTimeout(zoomB); zoomB = null; }
+    var f = document.getElementById('feld');
+    if(f && f.classList){ f.classList.remove('zoomt'); }
+  }
+
+  function zoomStarten(){
+    zoomAbbrechen();
+    if(schritt !== 3) return;
+    zoomA = window.setTimeout(function(){
+      zoomA = null;
+      var bewegt = hat('bewegt');
+      var f = document.getElementById('feld');
+      if(bewegt && f && f.classList){ f.classList.add('zoomt'); }
+      zoomB = window.setTimeout(function(){
+        zoomB = null;
+        if(schritt === 3){ schrittSetzen(4); }
+      }, bewegt ? ZOOM_DAUER : 80);
+    }, ZOOM_WARTE);
+  }
+
+  function skipStarten(){
+    skipStoppen();
+    var b = document.getElementById('ueberspringen');
+    if(!b) return;
+    if(P.frei){ b.hidden = false; return; }
+    b.hidden = true;
+    skipUhr = window.setTimeout(function(){ b.hidden = false; }, SKIP_MS);
+  }
+  function skipStoppen(){
+    if(skipUhr){ window.clearTimeout(skipUhr); skipUhr = null; }
+  }
+
+  // ------------------------------------------------------------- Strophen
+  var STROPHEN_N = 4, strophe = 0;
+
+  function stropheSetzen(i, richtung){
+    var karten = document.querySelectorAll('#strophen .gkarte');
+    if(!karten.length) return 0;
+    i = Math.max(0, Math.min(karten.length - 1, i));
+    strophe = i;
+    for(var k = 0; k < karten.length; k++){
+      if(!karten[k].classList) continue;
+      karten[k].classList.remove('ist', 'vor', 'zurueck');
+      if(k === i){
+        karten[k].classList.add('ist');
+        if(richtung > 0){ karten[k].classList.add('vor'); }
+        if(richtung < 0){ karten[k].classList.add('zurueck'); }
+      }
+    }
+    var kn = document.querySelectorAll('#strophennav button');
+    for(var j = 0; j < kn.length; j++){
+      var ist = j === i;
+      if(kn[j].classList){ kn[j].classList.toggle('ist', ist); }
+      kn[j].setAttribute('aria-current', ist ? 'true' : 'false');
+    }
+    var h = document.getElementById('wischhinweis');
+    if(h){
+      h.innerHTML = i + 1 >= karten.length
+        ? 'Strophe <b>' + (i + 1) + '</b> von ' + karten.length + ' &middot; nach rechts wischen f&uuml;r zur&uuml;ck'
+        : 'Strophe <b>' + (i + 1) + '</b> von ' + karten.length + ' &middot; nach links wischen';
+    }
+    return i;
+  }
+
+  function strophenVerdrahten(){
+    var box = document.getElementById('strophen');
+    var kn = document.querySelectorAll('#strophennav button');
+    for(var j = 0; j < kn.length; j++){
+      (function(b){
+        b.addEventListener('click', function(){
+          var i = parseInt(b.getAttribute('data-strophe'), 10) || 0;
+          stropheSetzen(i, i > strophe ? 1 : -1);
+        });
+      })(kn[j]);
+    }
+    if(!box) return;
+    var g = { an: false, x0: 0, y0: 0 };
+    box.addEventListener('pointerdown', function(e){
+      if(schritt !== 4) return;
+      g.an = true; g.x0 = e.clientX; g.y0 = e.clientY;
+    });
+    box.addEventListener('pointerup', function(e){
+      if(!g.an) return;
+      g.an = false;
+      var dx = e.clientX - g.x0, dy = e.clientY - g.y0;
+      var schwelle = Math.max(36, breiteJetzt * 0.11);
+      if(Math.abs(dx) < schwelle || Math.abs(dx) < Math.abs(dy)) return;
+      stropheSetzen(strophe + (dx < 0 ? 1 : -1), dx < 0 ? 1 : -1);
+    });
+    box.addEventListener('pointercancel', function(){ g.an = false; });
+  }
+
+  // ------------------------------------------------------ Schrittsteuerung
+  function richtigZahl(){
+    var n = 0;
+    for(var i = 0; i < P.kacheln.length; i++){
+      if(P.kacheln[i].getAttribute('data-ziel') === P.kacheln[i].getAttribute('data-zelle')){ n++; }
+    }
+    return n;
+  }
+
+  function hinweisSetzen(){
+    var el = document.getElementById('hinweis');
+    var w = document.getElementById('weiter');
+    if(!el || !w) return;
+    if(schritt === 1){
+      var voll = deckeVoll();
+      el.innerHTML = voll
+        ? '<b>Zugesch&uuml;ttet.</b> Die Hochzeitsfamilie liegt unter dem Konfetti.'
+        : 'Die Absender werfen. Halde: <b>' + Math.round(deckeAnteil() * 100) +
+          ' %</b>, noch ' + (STUFEN - D.stufe) + ' s.';
+      w.textContent = 'Ausgraben';
+      w.disabled = !voll;
+    } else if(schritt === 2){
+      var frei = freiAnteil();
+      el.innerHTML = frei < FREI_SCHWELLE
+        ? 'Mit dem Finger &uuml;ber das Konfetti wischen. Freigelegt: <b>' +
+          Math.round(frei * 100) + ' %</b> von ' + Math.round(FREI_SCHWELLE * 100) + ' %.'
+        : '<b>Freigelegt.</b> Das Puzzle ist offen.';
+      w.textContent = 'Zum Puzzle';
+      w.disabled = frei < FREI_SCHWELLE;
+    } else if(schritt === 3){
+      var n = richtigZahl();
+      el.innerHTML = n >= PZ_N
+        ? '<b>Bordkarte komplett.</b> Das Gedicht kommt gleich.'
+        : 'Teile tauschen, bis die Bordkarte stimmt. <b>' + n + '</b> von ' + PZ_N + '.';
+      w.textContent = 'Zum Gedicht';
+      w.disabled = !(n >= PZ_N || P.frei);
+    } else {
+      el.innerHTML = 'Gute Fahrt, ihr zwei. <b>Bordkasse: bar, im Kuvert.</b>';
+      w.textContent = 'Zur&uuml;ck zum Anfang';
+      w.disabled = false;
+    }
+  }
+
+  function raumSperren(an){
+    if(!RAUM) return;
+    var st = document.getElementById('stufe-puzzle');
+    if(an){
+      var h = mass.raumH || hoeheVon(RAUM);
+      if(h){
+        RAUM.style.minHeight = h + 'px';
+        if(st){
+          st.style.minHeight = h + 'px';
+          st.style.paddingTop = Math.round(D.oben || 0) + 'px';
+        }
+      }
+    } else {
+      RAUM.style.minHeight = '';
+      if(st){ st.style.minHeight = ''; st.style.paddingTop = ''; }
+    }
+  }
+
+  function schrittSetzen(n){
+    schritt = n;
+    if(CARD.classList){
+      CARD.classList.remove('schritt1', 'schritt2', 'schritt3', 'schritt4');
+      CARD.classList.add('schritt' + n);
+    }
+    var knoepfe = document.querySelectorAll('#schritte button');
+    for(var i = 0; i < knoepfe.length; i++){
+      var ist = knoepfe[i].getAttribute('data-schritt') === String(n);
+      if(knoepfe[i].classList){ knoepfe[i].classList.toggle('ist', ist); }
+      knoepfe[i].setAttribute('aria-current', ist ? 'step' : 'false');
+    }
+    wachsenStoppen(); skipStoppen(); zoomAbbrechen();
+    if(n === 1){
+      raumSperren(false);
+      deckeLeeren();
+      puzzleMischen();
+      wachsenStarten();
+    } else if(n === 2){
+      raumSperren(true);
+      deckeFuellen();
+    } else if(n === 3){
+      raumSperren(false);
+      deckeLeeren();
+      skipStarten();
+    } else {
+      raumSperren(false);
+      deckeLeeren();
+      stropheSetzen(0, 0);
+    }
+    hinweisSetzen();
+  }
+
+  function steuerungVerdrahten(){
+    var knoepfe = document.querySelectorAll('#schritte button');
+    for(var i = 0; i < knoepfe.length; i++){
+      (function(b){
+        b.addEventListener('click', function(){
+          schrittSetzen(parseInt(b.getAttribute('data-schritt'), 10) || 1);
+        });
+      })(knoepfe[i]);
+    }
+    var w = document.getElementById('weiter');
+    if(w){
+      w.addEventListener('click', function(){
+        schrittSetzen(schritt >= 4 ? 1 : schritt + 1);
+      });
+    }
+    var s = document.getElementById('ueberspringen');
+    if(s){ s.addEventListener('click', function(){ puzzleLoesen(); }); }
+  }
+
+  function bewegungSetzen(an){
+    if(!CARD || !CARD.classList) return;
+    CARD.classList.toggle('bewegt', !!an);
+    var b = document.getElementById('bewegung');
+    if(b){
+      b.textContent = an ? 'Bewegung ausschalten' : 'Bewegung einschalten';
+      b.setAttribute('aria-pressed', an ? 'true' : 'false');
+    }
+  }
+
+  function schalterVerdrahten(){
+    var b = document.getElementById('bewegung');
+    if(!b) return;
+    b.addEventListener('click', function(){ bewegungSetzen(!hat('bewegt')); });
+  }
+
+  function aufbauen(breite){
+    breiteJetzt = breite;
+    if(CARD.classList){ CARD.classList.toggle('mobil', breite < 500); }
+    phase('Paar', function(){ paarSkalieren(breite); });
+    var szeneHoehe = phase('Szene', function(){ return szeneSkalieren(breite); }) || 0;
+    var famBasis = Math.max(180, Math.min(340, Math.round(breite * 0.62)));
+    phase('Familie', function(){ return familieSkalieren(famBasis); });
+
+    var szene = document.getElementById('szene');
+    var linie = document.getElementById('grundlinie');
+    var famReihe = document.getElementById('familie');
+
+    if(linie){
+      var lw = breiteVon(famReihe) || breite;
+      linie.style.width = Math.max(120, Math.round(lw * 0.94)) + 'px';
+    }
+
+    // Die Bandszene liegt jetzt ueber dem Raum: der Regen beginnt an der Raumoberkante,
+    // also unmittelbar unter der Bandunterkante.
+    var startY = 2;
+    var bodenY = linie ? (linie.offsetTop || 0) : 0;
+    if(!bodenY){ bodenY = startY + Math.round(famBasis * 1.6); }
+
+    var raumH = hoeheVon(RAUM);
+    if(!raumH){ raumH = Math.round(breite * 1.85); }
+    mass = { startY: startY, bodenY: bodenY, famBasis: famBasis, raumH: raumH };
+
+    var innen = breiteVon(RAUM) || Math.max(180, breite - PAD_L - PAD_R);
+    var teile = phase('Konfetti', function(){ return konfettiBauen(breite, startY, bodenY); }) || 0;
+    var zellen = phase('Decke', function(){ return deckeVorbereiten(breite, raumH, 0); }) || 0;
+    phase('Puzzle', function(){ return puzzleBauen(innen); });
+
+    CARD.setAttribute('data-gemessen', String(breite));
+    window.__probe = {
+      breite: breite, innen: innen, szeneHoehe: szeneHoehe, famBasis: famBasis, raumH: raumH,
+      startY: startY, bodenY: bodenY, teile: teile, zellen: zellen,
+      kacheln: P.kacheln.length, brettBreite: P.bw, brettHoehe: P.bh,
+      deckeAnteil: deckeAnteil(), frei: freiAnteil(), richtig: richtigZahl(),
+      deckeOben: D.oben, deckeHoehe: D.h, stufe: D.stufe,
+      schritt: schritt, versuche: versuche, reduziert: reduziert(),
+      canvas: !!D.ctx, fehler: LOG.join(' | ')
+    };
+  }
+
+  function start(){
+    CARD = document.getElementById('card');
+    RAUM = document.getElementById('raum');
+    if(!CARD) throw new Error('Karte nicht gefunden');
+    var b = breiteVon(CARD);
+    if(!b){
+      versuche++;
+      if(versuche < 40 && window.requestAnimationFrame){ window.requestAnimationFrame(start); return; }
+      b = FALLBACK_BREITE;
+    }
+    bewegungSetzen(!reduziert());
+    schalterVerdrahten();
+    steuerungVerdrahten();
+    strophenVerdrahten();
+    wischenVerdrahten();
+    aufbauen(b);
+    schrittSetzen(1);
+    aufbauen(b);
+    window.__api = {
+      schritt: schrittSetzen, wischen: wischen, fuellen: deckeFuellen,
+      tick: wachsenSchritt, stufe: function(){ return D.stufe; },
+      freiWechsel: function(){ return freiWechsel; },
+      zoomWarte: ZOOM_WARTE, zoomDauer: ZOOM_DAUER,
+      strophe: stropheSetzen, stropheJetzt: function(){ return strophe; },
+      stufen: STUFEN, takt: TAKT, oben: function(){ return D.oben; },
+      hoehe: function(){ return D.h; },
+      loesen: puzzleLoesen, anteil: deckeAnteil, frei: freiAnteil,
+      zaehlen: puzzleZaehlen, richtig: richtigZahl,
+      kacheln: function(){ return P.kacheln; },
+      brett: function(){ return { bw: P.bw, bh: P.bh, tw: P.tw, th: P.th }; }
+    };
+  }
+
+  try{
+    start();
+    var timer = null;
+    window.addEventListener('resize', function(){
+      if(timer) clearTimeout(timer);
+      timer = setTimeout(function(){
+        try{
+          var voll = deckeVoll();
+          aufbauen(breiteVon(CARD) || FALLBACK_BREITE);
+          if(voll || schritt === 2){ deckeFuellen(); }
+          hinweisSetzen();
+        }catch(e){ melde('Resize: ' + (e && e.message)); }
+      }, 200);
+    });
+  }catch(err){
+    document.body.innerHTML = '<div class="errbanner"><b>Init-Fehler</b>\n\n' +
+      String(err && err.message) + '\n\n' + String(err && err.stack) + '</div>';
+  }
+})();
+</script>
+</body>
+</html>
