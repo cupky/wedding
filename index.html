@@ -111,13 +111,6 @@ body{font-family:var(--text);color:var(--petrol);-webkit-text-size-adjust:100%;p
 #kopfszene{position:relative;z-index:3}
 
 /* 04 Gedicht als Wisch-Strecke */
-#strophennav{display:flex;flex-wrap:wrap;gap:9px;align-items:baseline;margin:2px 0 0}
-#strophennav button{appearance:none;background:none;border:0;padding:0;cursor:pointer;
-  font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--grau)}
-#strophennav button .sn{color:var(--grau);margin-right:3px}
-#strophennav button.ist{color:var(--petrol)}
-#strophennav button.ist .sn{color:var(--kupfer)}
-#strophennav button.ist::after{content:"";display:block;height:1px;background:var(--kupfer);margin-top:3px}
 #strophen{position:relative;touch-action:pan-y}
 #strophen .gkarte{display:none}
 #strophen .gkarte.ist{display:block}
@@ -139,14 +132,14 @@ body{font-family:var(--text);color:var(--petrol);-webkit-text-size-adjust:100%;p
 #wischhinweis{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;color:var(--grau);
   margin:10px 0 0;text-align:center}
 #wischhinweis b{color:var(--petrol);font-weight:400}
-.gkarte{border:1px solid rgba(126,133,149,.5);padding:14px 14px 16px;margin:12px 0 0}
-.gkopf{display:flex;justify-content:space-between;align-items:baseline;
+.gkarte{border:1px solid rgba(126,133,149,.5);padding:14px 14px 16px;margin:12px 0 0;text-align:center}
+.gkopf{display:flex;justify-content:center;gap:12px;align-items:baseline;
   border-bottom:1px solid var(--kupfer);padding-bottom:6px;margin-bottom:10px}
 .glbl{font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--petrol)}
 .gno{font-family:var(--display);font-size:14px;color:var(--kupfer)}
 .vers p{font-family:var(--text);font-size:14px;line-height:1.75;margin:0 0 11px}
 .vers p:last-child{margin-bottom:0}
-.gsig{font-family:var(--display);font-size:14px;line-height:1.7;color:var(--kupfer);margin:12px 0 0}
+.gsig{font-family:var(--display);font-size:14px;line-height:1.7;color:var(--kupfer);margin:14px 0 0;text-align:center}
 .gnote{font-family:var(--text);font-size:14px;line-height:1.75;margin:0}
 .gnote b{font-weight:400;color:var(--petrol);border-bottom:1px solid var(--kupfer)}
 .plakette{margin:14px 0 0;border:1px solid var(--kupfer);padding:10px 12px;text-align:center}
@@ -165,15 +158,8 @@ body{font-family:var(--text);color:var(--petrol);-webkit-text-size-adjust:100%;p
 #card.bewegt .schiff{transform-origin:bottom center;animation:schiffeln 4.6s ease-in-out infinite}
 
 /* Steuerleiste */
-#leiste{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-top:12px;position:relative;z-index:3}
-#card.schritt3 #weiter,#card.schritt4 #weiter{display:none}
-#hinweis{font-family:var(--mono);font-size:10px;line-height:1.6;letter-spacing:.06em;color:var(--grau);margin:0;flex:1 1 auto}
-#hinweis b{color:var(--petrol);font-weight:400}
-.knopf{appearance:none;background:none;border:1px solid var(--kupfer);color:var(--petrol);
-  font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
-  padding:7px 12px;cursor:pointer}
-.knopf[disabled]{opacity:.35;cursor:default}
-.knopf.leise{border-color:rgba(126,133,149,.6);color:var(--grau);font-size:8px;letter-spacing:.1em;padding:4px 7px}
+.knopf.leise{appearance:none;background:none;border:1px solid rgba(126,133,149,.6);color:var(--grau);
+  font-family:var(--mono);font-size:8px;letter-spacing:.1em;text-transform:uppercase;padding:4px 7px;cursor:pointer}
 
 /* Bewegung nur mit Klasse .bewegt */
 .bein-l,.bein-r,.bein-s-l,.bein-s-r,.arm-w,.arm-t,.arm-tr,.arm-c-l,.arm-c-r{transform-box:fill-box}
@@ -367,11 +353,6 @@ body{font-family:var(--text);color:var(--petrol);-webkit-text-size-adjust:100%;p
     </div>
 
     <div class="abschnitt" id="stufe-gedicht">
-      <nav id="strophennav" aria-label="Strophen">
-        <button type="button" data-strophe="0"><span class="sn">I</span> Zwei F&auml;cher</button>
-        <button type="button" data-strophe="1"><span class="sn">II</span> Stoff und Strom</button>
-        <button type="button" data-strophe="2"><span class="sn">III</span> Bordkasse</button>
-      </nav>
       <div id="strophen">
       <article class="gkarte">
         <div class="gkopf"><span class="glbl">Zwei F&auml;cher, ein Kurs</span><span class="gno">I</span></div>
@@ -407,7 +388,7 @@ body{font-family:var(--text);color:var(--petrol);-webkit-text-size-adjust:100%;p
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5 L16 12 L9 19"/></svg>
         </button>
       </div>
-      <p id="wischhinweis">Strophe <b>1</b> von 3</p>
+      <p id="wischhinweis">wischen oder klicken</p>
 
       <div class="meer" aria-hidden="true">
         <svg class="welle b" viewBox="0 0 200 24" preserveAspectRatio="none">
@@ -440,11 +421,6 @@ body{font-family:var(--text);color:var(--petrol);-webkit-text-size-adjust:100%;p
     <button type="button" data-schritt="4"><span class="nr">04</span>Gedicht</button>
   </nav>
 
-  <div id="leiste">
-    <p id="hinweis">&nbsp;</p>
-    <button type="button" class="knopf" id="weiter">Weiter</button>
-    <button type="button" class="knopf leise" id="bewegung" aria-pressed="false">Bewegung an</button>
-  </div>
 </div>
 
 <script>
@@ -674,7 +650,6 @@ body{font-family:var(--text);color:var(--petrol);-webkit-text-size-adjust:100%;p
       }
     }
     if(weg){
-      hinweisSetzen();
       var f = freiAnteil();
       if(schritt === 2 && f >= FREI_SCHWELLE){
         freiWechsel = f;
@@ -710,7 +685,6 @@ body{font-family:var(--text);color:var(--petrol);-webkit-text-size-adjust:100%;p
     if(D.stufe >= STUFEN) return D.stufe;
     D.stufe++;
     deckeWachsenBis(Math.round(D.reihenMax * D.stufe / STUFEN));
-    hinweisSetzen();
     if(D.stufe >= STUFEN){
       wachsenStoppen();
       if(schritt === 1){ schrittSetzen(2); }
@@ -819,7 +793,6 @@ body{font-family:var(--text);color:var(--petrol);-webkit-text-size-adjust:100%;p
         if(andere && andere !== k){ blitzen(andere); }
       }
       if(puzzleZaehlen() >= PZ_N){ P.frei = true; zoomStarten(); }
-      hinweisSetzen();
     }
     k.addEventListener('pointerup', los);
     k.addEventListener('pointercancel', los);
@@ -882,7 +855,6 @@ body{font-family:var(--text);color:var(--petrol);-webkit-text-size-adjust:100%;p
     }
     P.frei = true;
     puzzleZaehlen();
-    hinweisSetzen();
     zoomStarten();
   }
 
@@ -937,12 +909,6 @@ body{font-family:var(--text);color:var(--petrol);-webkit-text-size-adjust:100%;p
         if(richtung < 0){ karten[k].classList.add('zurueck'); }
       }
     }
-    var kn = document.querySelectorAll('#strophennav button');
-    for(var j = 0; j < kn.length; j++){
-      var ist = j === i;
-      if(kn[j].classList){ kn[j].classList.toggle('ist', ist); }
-      kn[j].setAttribute('aria-current', ist ? 'true' : 'false');
-    }
     var punkte = document.querySelectorAll('#wpunkte i');
     for(var q = 0; q < punkte.length; q++){
       if(punkte[q].classList){ punkte[q].classList.toggle('ist', q === i); }
@@ -954,8 +920,7 @@ body{font-family:var(--text);color:var(--petrol);-webkit-text-size-adjust:100%;p
     if(leiste && leiste.classList){ leiste.classList.toggle('tipp', i === 0 && !gewischt); }
     var h = document.getElementById('wischhinweis');
     if(h){
-      h.innerHTML = 'Strophe <b>' + (i + 1) + '</b> von ' + karten.length +
-        (i === 0 && !gewischt ? ' &middot; wischen oder tippen' : '');
+      h.innerHTML = 'wischen oder klicken';
     }
     return i;
   }
@@ -971,16 +936,6 @@ body{font-family:var(--text);color:var(--petrol);-webkit-text-size-adjust:100%;p
     var zur = document.getElementById('wzurueck'), vor = document.getElementById('wvor');
     if(zur){ zur.addEventListener('click', function(){ gewischt = true; stropheSetzen(strophe - 1, -1); }); }
     if(vor){ vor.addEventListener('click', function(){ gewischt = true; stropheSetzen(strophe + 1, 1); }); }
-    var kn = document.querySelectorAll('#strophennav button');
-    for(var j = 0; j < kn.length; j++){
-      (function(b){
-        b.addEventListener('click', function(){
-          var i = parseInt(b.getAttribute('data-strophe'), 10) || 0;
-          gewischt = true;
-          stropheSetzen(i, i > strophe ? 1 : -1);
-        });
-      })(kn[j]);
-    }
     if(!box) return;
     var g = { an: false, x0: 0, y0: 0 };
     box.addEventListener('pointerdown', function(e){
@@ -1006,40 +961,6 @@ body{font-family:var(--text);color:var(--petrol);-webkit-text-size-adjust:100%;p
       if(P.kacheln[i].getAttribute('data-ziel') === P.kacheln[i].getAttribute('data-zelle')){ n++; }
     }
     return n;
-  }
-
-  function hinweisSetzen(){
-    var el = document.getElementById('hinweis');
-    var w = document.getElementById('weiter');
-    if(!el || !w) return;
-    if(schritt === 1){
-      var voll = deckeVoll();
-      el.innerHTML = voll
-        ? '<b>Zugesch&uuml;ttet.</b> Die Hochzeitsfamilie liegt unter dem Konfetti.'
-        : 'Die Absender werfen. Halde: <b>' + Math.round(deckeAnteil() * 100) +
-          ' %</b>, noch ' + (STUFEN - D.stufe) + ' s.';
-      w.textContent = 'Ausgraben';
-      w.disabled = !voll;
-    } else if(schritt === 2){
-      var frei = freiAnteil();
-      el.innerHTML = frei < FREI_SCHWELLE
-        ? 'Mit dem Finger &uuml;ber das Konfetti wischen. Freigelegt: <b>' +
-          Math.round(frei * 100) + ' %</b> von ' + Math.round(FREI_SCHWELLE * 100) + ' %.'
-        : '<b>Freigelegt.</b> Das Puzzle ist offen.';
-      w.textContent = 'Zum Puzzle';
-      w.disabled = frei < FREI_SCHWELLE;
-    } else if(schritt === 3){
-      var n = richtigZahl();
-      el.innerHTML = n >= PZ_N
-        ? '<b>Bordkarte komplett.</b> Das Gedicht kommt gleich.'
-        : 'Teile tauschen, bis die Bordkarte stimmt. <b>' + n + '</b> von ' + PZ_N + '.';
-      w.textContent = 'Zum Gedicht';
-      w.disabled = !(n >= PZ_N || P.frei);
-    } else {
-      el.innerHTML = '&nbsp;';
-      w.textContent = 'Zur&uuml;ck zum Anfang';
-      w.disabled = false;
-    }
   }
 
   function raumSperren(an){
@@ -1090,7 +1011,6 @@ body{font-family:var(--text);color:var(--petrol);-webkit-text-size-adjust:100%;p
       deckeLeeren();
       stropheSetzen(0, 0);
     }
-    hinweisSetzen();
   }
 
   function steuerungVerdrahten(){
@@ -1115,17 +1035,6 @@ body{font-family:var(--text);color:var(--petrol);-webkit-text-size-adjust:100%;p
   function bewegungSetzen(an){
     if(!CARD || !CARD.classList) return;
     CARD.classList.toggle('bewegt', !!an);
-    var b = document.getElementById('bewegung');
-    if(b){
-      b.textContent = an ? 'Bewegung aus' : 'Bewegung an';
-      b.setAttribute('aria-pressed', an ? 'true' : 'false');
-    }
-  }
-
-  function schalterVerdrahten(){
-    var b = document.getElementById('bewegung');
-    if(!b) return;
-    b.addEventListener('click', function(){ bewegungSetzen(!hat('bewegt')); });
   }
 
   function aufbauen(breite){
@@ -1183,7 +1092,6 @@ body{font-family:var(--text);color:var(--petrol);-webkit-text-size-adjust:100%;p
       b = FALLBACK_BREITE;
     }
     bewegungSetzen(!reduziert());
-    schalterVerdrahten();
     steuerungVerdrahten();
     strophenVerdrahten();
     wischenVerdrahten();
@@ -1215,7 +1123,6 @@ body{font-family:var(--text);color:var(--petrol);-webkit-text-size-adjust:100%;p
           var voll = deckeVoll();
           aufbauen(breiteVon(CARD) || FALLBACK_BREITE);
           if(voll || schritt === 2){ deckeFuellen(); }
-          hinweisSetzen();
         }catch(e){ melde('Resize: ' + (e && e.message)); }
       }, 200);
     });
